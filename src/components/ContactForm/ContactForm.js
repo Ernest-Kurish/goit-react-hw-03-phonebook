@@ -14,7 +14,7 @@ class ContactForm extends React.Component {
 
     const { name, number } = this.state;
     if (!name || !number) {
-      alert('Please enter a name and number');
+      alert('Please enter a name and number and it is enough');
       return;
     }
 
