@@ -5,10 +5,9 @@ import css from './ContactForm.module.css';
 
 class ContactForm extends React.Component {
   state = {
-      name: '',
-      number: '',
-    };
-  
+    name: '',
+    number: '',
+  };
 
   handleSubmit = (event) => {
     event.preventDefault();
