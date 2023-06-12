@@ -23,19 +23,30 @@ class App extends React.Component {
     localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
   }
 
-  addContact = (contact) => {
+  handleInputChange = (event) => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  };
+
+  handleSubmit = (name, number) => {
     const { contacts } = this.state;
 
     const existingContact = contacts.find(
-      (c) => c.name.toLowerCase() === contact.name.toLowerCase()
+      (contact) => contact.name.toLowerCase() === name.toLowerCase()
     );
     if (existingContact) {
       alert('Contact with the same name already exists');
       return;
     }
 
+    const newContact = {
+      id: Date.now().toString(),
+      name,
+      number,
+    };
+
     this.setState((prevState) => ({
-      contacts: [contact, ...prevState.contacts],
+      contacts: [newContact, ...prevState.contacts],
     }));
   };
 
@@ -43,10 +54,6 @@ class App extends React.Component {
     this.setState((prevState) => ({
       contacts: prevState.contacts.filter((contact) => contact.id !== id),
     }));
-  };
-
-  handleFilterChange = (value) => {
-    this.setState({ filter: value });
   };
 
   render() {
@@ -58,9 +65,9 @@ class App extends React.Component {
     return (
       <div className={css.container}>
         <h1>Phonebook</h1>
-        <ContactForm addContact={this.addContact} />
+        <ContactForm onSubmit={this.handleSubmit} />
         <h2>Contacts</h2>
-        <SearchFilter value={filter} onChange={this.handleFilterChange} />
+        <SearchFilter value={filter} onChange={this.handleInputChange} />
         <ContactList contacts={filteredContacts} onDelete={this.deleteContact} />
       </div>
     );
